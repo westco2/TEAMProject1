@@ -13,15 +13,25 @@
     <facet type="web" name="Web">
       <configuration>
         <descriptors>
-          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/web/WEB-INF/web.xml" />
-          <deploymentDescriptor name="context.xml" url="file://$MODULE_DIR$/META-INF/context.xml" />
-          <deploymentDescriptor name="jboss-deployment-structure.xml" url="file://$MODULE_DIR$/WEB-INF/jboss-deployment-structure.xml" />
-          <deploymentDescriptor name="jboss-web.xml" url="file://$MODULE_DIR$/WEB-INF/jboss-web.xml" />
-          <deploymentDescriptor name="sun-web.xml" url="file://$MODULE_DIR$/WEB-INF/sun-web.xml" />
-          <deploymentDescriptor name="glassfish-web.xml" url="file://$MODULE_DIR$/WEB-INF/glassfish-web.xml" />
+          <deploymentDescriptor name="jboss-web.xml" url="file://$MODULE_DIR$/web/WEB-INF/jboss-web.xml" />
+          <deploymentDescriptor name="glassfish-web.xml" url="file://$MODULE_DIR$/web/WEB-INF/glassfish-web.xml" />
+          <deploymentDescriptor name="context.xml" url="file://$MODULE_DIR$/web/META-INF/context.xml" />
+          <deploymentDescriptor name="jboss-deployment-structure.xml" url="file://$MODULE_DIR$/web/WEB-INF/jboss-deployment-structure.xml" />
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/web/web/WEB-INF/web.xml" />
+          <deploymentDescriptor name="sun-web.xml" url="file://$MODULE_DIR$/web/WEB-INF/sun-web.xml" />
         </descriptors>
         <webroots>
           <root url="file://$MODULE_DIR$/src/main/webapp" relative="/" />
+        </webroots>
+      </configuration>
+    </facet>
+    <facet type="web" name="Web2">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/web/WEB-INF/web.xml" />
+        </descriptors>
+        <webroots>
+          <root url="file://$MODULE_DIR$/web" relative="/" />
         </webroots>
       </configuration>
     </facet>
@@ -46,5 +56,12 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="javax.servlet.api" level="project" />
+    <orderEntry type="library" scope="TEST" name="lib" level="project" />
+    <orderEntry type="library" name="javax.websocket.api" level="project" />
+    <orderEntry type="library" name="javax.javaee.api" level="project" />
+    <orderEntry type="library" name="javax.javaee.api1" level="project" />
+    <orderEntry type="library" name="javax.servlet.jstl" level="project" />
+    <orderEntry type="library" name="jquery-3.3.1.slim" level="application" />
   </component>
 </module>

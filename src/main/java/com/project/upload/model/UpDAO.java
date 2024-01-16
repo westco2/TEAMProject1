@@ -8,12 +8,12 @@ import java.sql.PreparedStatement;
 
 
 
-public class upDAO {
+public class UpDAO {
 	//싱글톤
 		//1. 객체 1개 생성
-		private static upDAO instance = new upDAO();
+		private static UpDAO instance = new UpDAO();
 		//2. 생성자 private
-		private upDAO() {
+		private UpDAO() {
 			
 			try {
 				//드라이버 호출문장
@@ -24,7 +24,7 @@ public class upDAO {
 			
 		}
 		//3. getter메서드
-		public static upDAO getInstance() {
+		public static UpDAO getInstance() {
 			return instance;
 		}
 		
@@ -37,8 +37,9 @@ public class upDAO {
 			
 			Connection conn = null;
 			PreparedStatement pstmt = null;
-			String sql = "insert into up_file(path, file_name) values(?, ?)";
-			String path = "C:\\Users\\user\\Desktop\\course\\jsp\\upload\\";
+			String sql = "insert into up_file(path, file_name, pno) values(?, ?, up_file_seq.nextval)";
+			String path = "/img/";
+			file = file.replace(" ","%20");
 			try {
 				conn = DriverManager.getConnection(url, uid, upw);
 				pstmt = conn.prepareStatement(sql);
@@ -56,7 +57,30 @@ public class upDAO {
 			}
 			
 		}
-		
+	public void reFile(String file, String pno) {
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = "update up_file set file_name = ? where pno = ? ";
+		file = file.replace(" ","%20");
+		try {
+			conn = DriverManager.getConnection(url, uid, upw);
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, file);
+			pstmt.setString(2, pno);
+
+			pstmt.executeUpdate();
+
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(conn, pstmt, null);
+		}
+
+	}
+
 		
 		
 }

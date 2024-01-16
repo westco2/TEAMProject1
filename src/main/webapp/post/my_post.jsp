@@ -12,48 +12,33 @@
 
 
 
-<div >
-    <h3 align="center" style="color: #7D4214;" class="div_center"> ${category}  </h3>
-    <b>${list.size()}개의 결과</b> 
-    <a href="list2.post?category=${category }&sort=pno">최신순</a>
-    <a href="list2.post?category=${category }&sort=hit">인기순</a>
-    <a href="list2.post?category=${category }&sort=num">찜순위</a>
-    <a href="list2.post?category=${category }&sort=price">가격순</a>
-
-    <c:forEach var="i" items="${list}">
-    	<c:choose>
-    		<c:when test="${i.pno !=  null}">
-        		<div class="container mt-3">
-        			<a href ="sell.post?pno=${i.pno}">
-            			<div class="product">
-                			<div class="thumbnail" style="background-image: url('https://via.placeholder.com/350')"></div>
-                			<div class="flex-grow-1 p-4">
-                
-                    		<h5 class="title">${i.title}</h5>
-                    		<p class="date"><fmt:formatDate value="${i.postDate}" pattern="YYYY.MM.dd" /></p>
-                    		<p class="price">${i.price}</p>
-                    		<p class="address">${i.address}</p>
-                    		<p class="float-end">조회수${i.hit}</p>
-                    		<p class="float-end">찜${i.attention}</p>
-                			</div>
-            			</div>
-        			</a>
-       			</div>
-       		</c:when>
-       		<c:otherwise>
-       		
-       		</c:otherwise>	
-        </c:choose>
-    
-    </c:forEach>
-        <form action="" class="form-inline" >
-            <div class="form-group">
-                <input type="text" name="search" placeholder="제목검색" class="form-control" style="text-align: center">
-                <input type="submit" value="검색" class="btn btn-default">
-                <input type="button" value="글 작성" class="btn btn-default" onclick="location.href='write.post';">
-            </div>
-        </form>
+<div>
+    <h3 align="center" style="color: #7D4214;" class="div_center"> 마이 연근 </h3>
+<b>${list.size()}개의 글</b>
+<div class="container mt-3">
+	<div class="row">
+		<c:forEach var="i" items="${list}">
+			<div class="col-md-3">
+				<a href="sell.post?pno=${i.pno}" class="text-decoration-none">
+					<div class="product card mb-3">
+						<div class="thumbnail" style="background-image: url('${i.path}');"></div>
+						<div class="card-body">
+							<h5 class="title card-title">${i.title}</h5>
+							<p class="date card-text"><fmt:formatDate value="${i.postDate}" pattern="YYYY.MM.dd" /></p>
+							<p class="price card-text" style="font-weight: 800;">${i.price}</p>
+							<p class="address card-text">${i.address}</p>
+							<p class="card-text">조회수 ${i.hit} 찜 ${i.attention}</p>
+						</div>
+					</div>
+				</a>
+				<input type="button" value="글 수정" onclick="location.href='update2.post?pno=${i.pno}';">
+				<input type="button" value="글 삭제" onclick="location.href='delete.post?pno=${i.pno}';">
+			</div>
+		</c:forEach>
+	</div>
+</div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+			crossorigin="anonymous"></script>
 
 </div>
-
-</html>

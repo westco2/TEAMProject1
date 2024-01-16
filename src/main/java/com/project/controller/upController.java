@@ -1,4 +1,9 @@
-package com.upload.controller;
+package com.project.controller;
+
+import com.project.post.service.postService;
+import com.project.post.service.postServiceImpl;
+import com.project.upload.service.upService;
+import com.project.upload.service.upServiceImpl;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -16,88 +21,120 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-import com.upload.service.upService;
-import com.upload.service.upServiceImpl;
 
-@MultipartConfig(location = "C:\\Users\\user\\Desktop\\course\\jsp\\upload",
+
+@MultipartConfig(location = "C:\\Users\\westc\\Documents\\TEAMProject\\src\\main\\webapp\\img",
 				 maxFileSize = -1,
 				 maxRequestSize = -1,
 				 fileSizeThreshold = 1024)
-@WebServlet("/upload")
+@WebServlet("*.upload")
 public class upController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	upService service = new upServiceImpl();
+	postService servicePost = new postServiceImpl();
 
 	public upController() {
 		super();
 	}
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doAction(request, response);
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("Post Request!!");
-		request.setCharacterEncoding("UTF-8");
-		service.upFile(request, response);
-		response.sendRedirect("");
-		try {
-			Collection<Part> parts = request.getParts();
-			String realFileName = null;
-			for(Part part : parts) {
-			if(part.getHeader("Content-Disposition").contains("filename=") ) { //전달된 코드가 파일업로드 형식이라면
-				realFileName = part.getSubmittedFileName(); //업로드된 파일명을 받는다
-			if(part.getSize() > 0) {
-				part.write("C:\\Users\\user\\Desktop\\course\\jsp\\upload\\" + realFileName); //헤딩 경로에 업로드시킨다
-				part.delete();
-			}
-			} 
-			}
-			//끝!!!!
-			} catch (Exception e) {
-			e.printStackTrace();
-			}
-		
-		
-		
-//		// 실제 서블릿이 동작하는 서버 경로 (Not 개발 서버)
-//		String realPath = request.getServletContext().getRealPath("/upload");
-//
-//		// form 태그 중 name="fileName" 인 요청 파트
-//		Part filePart = request.getPart("fileName");
-//
-//		// 요청된 파트의 전송된 파일 이름
-//		String fileName = filePart.getSubmittedFileName();
-//
-//		// 입력 스트림
-//		InputStream fis = filePart.getInputStream();
-//
-//		// 실제 업로드 될 경로 + 파일명
-//		String filePath = realPath + File.separator + fileName;
-//
-//		// 파일 출력 스트림 (저장)
-//		FileOutputStream fos = new FileOutputStream(filePath);
-//
-//		// 1024byte 씩 버퍼에 담아 읽어오는 과정
-//		// write(buffer, offset, length); 를 통해 읽어온 만큼만 쓰는 방법
-//		byte[] buf = new byte[1024];
-//		int size = 0;
-//		while((size=fis.read(buf)) != -1)
-//			fos.write(buf, 0, size);
-//		fos.close();
-//		fis.close();
-//
-//		PrintWriter out = response.getWriter();
-//		out.write("file uploaded to " + realPath +" successfully!");
-	}
-	protected void doAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 
 		String uri = request.getRequestURI();
 		String path = uri.substring(request.getContextPath().length());
+		System.out.println(path);
+		if (path.equals("/main/file.upload")) {
+			// 게시글 및 키워드 업로드
+			servicePost.regist(request, response);
+			servicePost.insertKey(request, response);
 
+			// 업로드된 파일의 이름을 얻기 위해 Part를 가져옵니다.
+			Part filePart = request.getPart("file");
+
+			// Part에서 파일 이름을 얻습니다.
+			String fileName = getSubmittedFileName(filePart);
+
+			// 다른 로직 수행...
+
+			// 서버로 응답을 반환 (예를 들어, 업로드된 파일의 다운로드 링크를 포함하는 HTML을 반환할 수 있음)
+			service.upFile(request, response, fileName);
+
+			try {
+				Collection<Part> parts = request.getParts();
+				String realFileName = null;
+				for (Part part : parts) {
+					if (part.getHeader("Content-Disposition").contains("filename=")) {
+						realFileName = part.getSubmittedFileName();
+						if (part.getSize() > 0) {
+							// 동적인 업로드 경로 생성
+							String uploadPath = "C:\\Users\\westc\\Documents\\TEAMProject\\src\\main\\webapp\\img\\";
+							part.write(uploadPath + realFileName);
+							part.delete();
+						}
+					}
+				}
+
+				// 적절한 리다이렉트 경로를 지정
+				response.sendRedirect("list.post");
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else if (path.equals("/main/reFile.upload")) {
+			String pno = request.getParameter("pno");
+			// 게시글 및 키워드 업로드
+			request.setAttribute("pno",pno);
+			servicePost.updateP(request, response);
+			servicePost.updateKey(request, response);
+
+			// 업로드된 파일의 이름을 얻기 위해 Part를 가져옵니다.
+			Part filePart = request.getPart("file");
+
+			// Part에서 파일 이름을 얻습니다.
+			String fileName = getSubmittedFileName(filePart);
+
+			// 다른 로직 수행...
+
+			// 서버로 응답을 반환 (예를 들어, 업로드된 파일의 다운로드 링크를 포함하는 HTML을 반환할 수 있음)
+			service.reFile(request, response, fileName);
+
+			try {
+				Collection<Part> parts = request.getParts();
+				String realFileName = null;
+				for (Part part : parts) {
+					if (part.getHeader("Content-Disposition").contains("filename=")) {
+						realFileName = part.getSubmittedFileName();
+						if (part.getSize() > 0) {
+							// 동적인 업로드 경로 생성
+							String uploadPath = "C:\\Users\\westc\\Documents\\TEAMProject\\src\\main\\webapp\\img\\";
+							part.write(uploadPath + realFileName);
+							part.delete();
+						}
+					}
+				}
+
+				// 적절한 리다이렉트 경로를 지정
+				request.getRequestDispatcher("update.post").forward(request,response);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private String getSubmittedFileName(Part part) {
+		String contentDisposition = part.getHeader("content-disposition");
+		String[] tokens = contentDisposition.split(";");
+		for (String token : tokens) {
+			if (token.trim().startsWith("filename")) {
+				return token.substring(token.indexOf("=") + 2, token.length() - 1);
+			}
+		}
+		return "";
 	}
 
 

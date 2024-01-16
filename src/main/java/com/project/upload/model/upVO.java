@@ -1,4 +1,4 @@
-package com.upload.model;
+package com.project.upload.model;
 
 public class upVO {
 	

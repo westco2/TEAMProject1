@@ -1,34 +1,41 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+<%@ include file="../include/header.jsp" %>
 <body>
-	<h3>받은 쪽지</h3>
-	<form>
-		<table>
-			<tr>
-				<td>보낸이</td>
-				<td><input type="text" name="user_id" value="${requestScope.user_id}" readonly="readonly"></td>
-			</tr>
-			<tr>
-				<td>받는이</td>
-				<td><input type="text" name="letter_send_id" value="${requestScope.Letter_send_id}" readonly="readonly"></td>
-			</tr>
-			<tr>
-				<td>일자</td>
-				<td><input type="text" name="letter_date" value="${requestScope.Letter_date}" readonly="readonly"></td>
-			</tr>
-			<tr>
-				<td>내용</td>
-				<td><input type="text" name="letter_detail" value="${requestScope.letter_detail}" readonly="readonly"></td>
-			</tr>					
-		</table>
-			<input type="button" value="닫기" onclick="location.href='/';">
-	</form>
+<div class="div_center">
+	<div class="custom-box">
+		<div class="message-box">
+			<h3>쪽지 보기</h3>
+			<hr>
+			<table class="table table-bordered">
+				<tr>
+					<td width="20%">글번호</td>
+					<td width="30%">${vo.bno}</td>
 
+					<td width="20%">받는사람</td>
+					<td width="30%">${vo.letter_send_id}</td>
+				</tr>
+				<tr>
+					<td>작성자</td>
+					<td>${vo.user_id}</td>
+
+					<td>작성일</td>
+					<td>${vo.letter_date}</td>
+				</tr>
+				<tr>
+					<td width="20%">글내용</td>
+					<td colspan="3" height="120px">${vo.letter_detail}</td>
+				</tr>
+			</table>
+			<input type="button" value="삭제" onclick="location.href='deleteForm.scripts?bno=${vo.bno}';"
+				   class="btn btn-custom">
+			<input type="button" value="목록" onclick="location.href='listForm.scripts?bno=${vo.bno}';"
+				   class="btn btn-custom">
+		</div>
+	</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+		crossorigin="anonymous"></script>
 </body>
-</html>
+

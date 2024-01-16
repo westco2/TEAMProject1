@@ -8,46 +8,35 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="../include/header.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>   
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 
-<div >
-    <h3 align="center" style="color: #7D4214;" class="div_center">중고거래</h3>
 
-    <c:forEach var="i" items="${list}">
-    	<c:choose>
-    		<c:when test="${i.pno !=  null}">
-        		<div class="container mt-3">
-        			<a href ="sell.post?pno=${i.pno}">
-            			<div class="product">
-							<div class="thumbnail" style="background-image: url('${i.path}'); background-size: 350px 350px"></div>
-                			<div class="flex-grow-1 p-4">
-                
-                    		<h5 class="title">${i.title}</h5>
-                    		<p class="date"><fmt:formatDate value="${i.postDate}" pattern="YYYY.MM.dd" /></p>
-                    		<p class="price">${i.price}</p>
-                    		<p class="address">${i.address}</p>
-                    		<p class="float-end">조회수${i.hit}</p>
-                    		<p class="float-end">찜${i.attention}</p>
-                			</div>
-            			</div>
-        			</a>
-       			</div>
-       		</c:when>
-       		<c:otherwise>
-       		
-       		</c:otherwise>	
-        </c:choose>
-    
-    </c:forEach>
-        <form action="" class="form-inline" >
-            <div class="form-group">
-                <input type="text" name="search" placeholder="제목검색" class="form-control" style="text-align: center">
-                <input type="submit" value="검색" class="btn btn-default">
-                <input type="button" value="글 작성" class="btn btn-default" onclick="location.href='write.post';">
-            </div>
-        </form>
-
+<div class="login-box">
+	<link rel=stylesheet href=01.css>
+	<h2>로그인</h2>
+	<form>
+		<div class="user-box">
+			<input type="text" name="" required="">
+			<label>아이디</label>
+		</div>
+		<div class="user-box">
+			<input type="password" name="" required="">
+			<label>비밀번호</label>
+		</div>
+		<a href="#">
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+			로그인
+		</a>
+		<a href="#">
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+			회원가입
+		</a>
+	</form>
 </div>
-
-</html>
